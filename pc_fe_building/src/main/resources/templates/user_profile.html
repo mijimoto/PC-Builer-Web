@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" th:href="@{/css/user_profile.css}">
+</head>
+<body>
+    <div class="app-bar">
+        <div class="tab-bar">
+            <button class="tab-button" onclick="window.location.href='/'">Home</button>
+            <button class="tab-button" onclick="window.location.href='/search'">Search</button>
+            <button class="tab-button" onclick="window.location.href='/build'">Build</button>
+            <button class="tab-button" onclick="window.location.href='/account'">Account</button>
+        </div>
+    </div>
+    <div class="container">
+        <h1 class="username">UserName</h1>
+        <div class="profile-card">
+            <div class="profile-info">
+                <p>First Name: Gecko</p>
+                <p>Last Name: Gex</p>
+                <p>Email: nuhuh@gmail.com</p>
+            </div>
+        </div>
+        <button class="edit-button" onclick="window.location.href='/user_profile_edit'">Edit Profile</button>
+        <a href="/" class="logout-link">Log Out</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item List</title>
+    <link rel="stylesheet" th:href="@{/css/item_batch.css}">
+</head>
+<body>
+    <div class="app-bar">
+        <div class="tab-bar">
+            <button class="tab-button" onclick="window.location.href='/'">Home</button>
+            <button class="tab-button" onclick="window.location.href='/search'">Search</button>
+            <button class="tab-button" onclick="window.location.href='/build'">Build</button>
+            <button class="tab-button" onclick="window.location.href='/account'">Account</button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="search-bar">
+            <input type="text" placeholder="search" class="search-input">
+            <span class="search-icon">🔍</span>
+            <button class="clear-button" onclick="this.previousElementSibling.value = ''; alert('Cleared');">✖</button>
+        </div>
+        <div class="item-list">
+            <div class="item-card">
+                <div class="item-image"></div>
+                <div class="item-details">Item 1</div>
+                <button class="action-btn add-btn" onclick="alert('Add clicked')">Add</button>
+            </div>
+            <div class="item-card">
+                <div class="item-image"></div>
+                <div class="item-details">Item 2</div>
+                <button class="action-btn add-btn" onclick="alert('Add clicked')">Add</button>
+            </div>
+            <div class="item-card">
+                <div class="item-image"></div>
+                <div class="item-details">Item 3</div>
+                <button class="action-btn add-btn" onclick="alert('Add clicked')">Add</button>
+            </div>
+        </div>
+        <button class="add-button" onclick="alert('New item added');">Add New Item</button>
+    </div>
+    <button class="menu-button" onclick="alert('Menu opened');">☰</button>
+</body>
+</html>
