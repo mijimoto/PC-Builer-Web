@@ -2,7 +2,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const itemName = urlParams.get("itemName");
 const itemIndex = urlParams.get("itemIndex");
 
-const apiUrl = `hhttps://pcbuilder-546878159726.asia-east1.run.app/api/v1/${itemName}`;
+const apiUrl = `https://pcbuilder-546878159726.asia-east1.run.app/api/v1/${itemName}`;
 
 const container = document.getElementById("parts-container");
 const searchInput = document.getElementById("search-input");
