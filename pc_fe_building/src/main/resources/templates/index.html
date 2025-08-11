@@ -71,6 +71,18 @@
 									<span>Login</span>
 								</a>
 							</li>
+							<li>
+								<a href="/user-profile" class="scrolly" data-bg-img="constructive_bg_05.jpg" data-page="#tm-section-5">
+									<i class="fas fa-user tm-nav-fa-icon"></i>
+									<span>Your Profile</span>
+								</a>
+							</li>
+							<li>
+								<a href="/build" class="scrolly" data-bg-img="constructive_bg_06.jpg" data-page="#tm-section-6">
+									<i class="fas fa-save tm-nav-fa-icon"></i>
+									<span>Your Saved Builds</span>
+								</a>
+							</li>
 						</ul>
 					</nav>
 				</div>
@@ -165,7 +177,17 @@
 								</div>
 							</div>
 						</div>
-					</section>					
+					</section>
+					
+					<!-- section 5 (Your Profile placeholder) -->
+					<section id="tm-section-5" class="tm-section" style="display: none;">
+						<!-- Placeholder section, will navigate to /user-profile -->
+					</section>
+
+					<!-- section 6 (Your Saved Builds placeholder) -->
+					<section id="tm-section-6" class="tm-section" style="display: none;">
+						<!-- Placeholder section, will navigate to /build -->
+					</section>
 						
 		</div>
 		<div id="preload-01"></div>
@@ -241,6 +263,14 @@
 	     		e.preventDefault();
 		    	
 		    	var currentNavItem = $(this);
+		    	var href = currentNavItem.attr("href");
+
+		    	// Check if it's an external link (starts with /)
+		    	if (href.startsWith('/')) {
+		    		window.location.href = href;
+		    		return;
+		    	}
+
 		    	changePage(currentNavItem);
 		    	
 		    	setupCarousel();
