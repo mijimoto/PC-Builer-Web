@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
     <link rel="stylesheet" th:href="@{/css/user_profile.css}">
+    <script th:src="@{/js/user_profile.js}" defer></script>
 </head>
 <body>
     <div class="app-bar">
@@ -12,20 +13,24 @@
             <button class="tab-button" onclick="window.location.href='/'">Home</button>
             <button class="tab-button" onclick="window.location.href='/search'">Search</button>
             <button class="tab-button" onclick="window.location.href='/build'">Build</button>
-            <button class="tab-button" onclick="window.location.href='/account'">Account</button>
+            <button class="tab-button active">Account</button>
         </div>
     </div>
     <div class="container">
-        <h1 class="username">UserName</h1>
+        <h1 class="username" id="username-title" 
+            th:text="${firstName} ?: 'UserName'">UserName</h1>
+        
+        <div class="error-message" id="error-message" style="color: red;"></div>
+
         <div class="profile-card">
             <div class="profile-info">
-                <p>First Name: Gecko</p>
-                <p>Last Name: Gex</p>
-                <p>Email: nuhuh@gmail.com</p>
+                <p id="firstNameDisplay">First Name: <span th:text="${firstName}">Gecko</span></p>
+                <p id="lastNameDisplay">Last Name: <span th:text="${lastName}">Gex</span></p>
+                <p id="emailDisplay">Email: <span th:text="${email}">nuhuh@gmail.com</span></p>
             </div>
         </div>
         <button class="edit-button" onclick="window.location.href='/user_profile_edit'">Edit Profile</button>
-        <a href="/" class="logout-link">Log Out</a>
+        <a href="#" id="logoutBtn" class="logout-link">Log Out</a>
     </div>
 </body>
 </html>

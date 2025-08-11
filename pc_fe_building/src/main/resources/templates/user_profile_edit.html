@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile</title>
     <link rel="stylesheet" th:href="@{/css/user_profile_edit.css}">
+    <script th:src="@{/js/user_profile_edit.js}" defer></script>
 </head>
 <body>
     <div class="app-bar">
@@ -12,30 +13,32 @@
             <button class="tab-button" onclick="window.location.href='/'">Home</button>
             <button class="tab-button" onclick="window.location.href='/search'">Search</button>
             <button class="tab-button" onclick="window.location.href='/build'">Build</button>
-            <button class="tab-button" onclick="window.location.href='/account'">Account</button>
+            <button class="tab-button active">Account</button>
         </div>
     </div>
     <div class="container">
-        <h1 class="username">UserName</h1>
+        <h1 class="username" id="username-title" th:text="${firstName} ?: 'UserName'">UserName</h1>
+        
+        <div class="error-message" id="error-message" style="color: red;"></div>
+
         <div class="profile-card">
             <div class="profile-form">
                 <div class="form-group">
-                    <input type="text" placeholder="First Name" class="form-input">
+                    <input id="firstName" type="text" placeholder="First Name" class="form-input"
+                           th:value="${firstName}">
                 </div>
                 <div class="form-group">
-                    <input type="text" placeholder="Last Name" class="form-input">
+                    <input id="lastName" type="text" placeholder="Last Name" class="form-input"
+                           th:value="${lastName}">
                 </div>
                 <div class="form-group">
-                    <input type="email" placeholder="Email" class="form-input">
-                </div>
-                <div class="form-group">
-                    <input type="password" placeholder="Password" class="form-input password-input">
-                    <a href="/forgot-password" class="change-password">Change Password</a>
+                    <input id="email" type="email" placeholder="Email" class="form-input"
+                           th:value="${email}">
                 </div>
             </div>
         </div>
         <div class="button-group">
-            <button class="action-button save-button" onclick="window.location.href='/user_profile'">Save new Profile</button>
+            <button class="action-button save-button" id="saveProfileBtn">Save new Profile</button>
             <button class="action-button cancel-button" onclick="window.location.href='/user_profile'">Cancel</button>
         </div>
     </div>
