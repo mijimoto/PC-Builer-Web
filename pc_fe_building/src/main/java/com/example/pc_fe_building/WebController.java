@@ -34,4 +34,8 @@ public class WebController {
     public String userProfileEdit(){
         return "user_profile_edit";
     }
+        @GetMapping("/reset_password")
+    public String resetPassword(){
+        return "reset_password";
+    }
 }
