@@ -1,9 +1,10 @@
 package com.example.pc_fe_building;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class WebController {
@@ -69,5 +70,9 @@ public class WebController {
         @GetMapping("/reset_password")
     public String resetPassword(){
         return "reset_password";
+    }
+     @GetMapping("/index")
+    public String homePage(){
+        return "index";
     }
 }
