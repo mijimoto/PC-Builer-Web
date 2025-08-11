@@ -1,168 +1,44 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Build Page</title>
-    <link rel="stylesheet" th:href="@{/css/build_page.css}">
+    <title>PC Build</title>
     <style>
-        .tab-bar {
-            background-color: #e0e0e0;
-            padding: 8px 0;
-            display: flex;
-            justify-content: space-evenly;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .tab-button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-weight: normal;
-            color: black;
-            padding: 4px 12px;
-        }
-        .tab-button.active {
-            font-weight: bold;
-            color: blue;
-        }
-        .item-card {
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 12px;
-            margin-bottom: 16px;
-            display: flex;
-            flex-direction: column;
-        }
-        .item-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-        .item-image {
-            width: 80px;
-            height: 80px;
-            background-color: #d3d3d3;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px;
-        }
-        .item-image::before {
-            content: "📷";
-            font-size: 24px;
-            color: grey;
-        }
-        .item-details h3 {
-            margin: 0;
-            font-size: 16px;
-            font-weight: bold;
-        }
-        .item-details p {
-            margin: 4px 0;
-        }
-        .item-details button {
-            margin-right: 8px;
-            padding: 6px 12px;
-            border-radius: 4px;
-        }
-        .item-dropdowns {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .dropdown-group {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .dropdown-group h4 {
-            margin: 0;
-            font-weight: bold;
-            min-width: 60px;
-        }
-        .dropdown-group select {
-            flex: 1;
-            padding: 6px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .check-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #8a4af3;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 56px;
-            height: 56px;
-            font-size: 24px;
-            cursor: pointer;
-        }
-        .check-button:hover {
-            background-color: #6d2ad6;
-        }
+        body { font-family: Arial, sans-serif; background: #f5f5f5; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 5px; }
+        .item-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #ddd; }
+        .item-name { font-weight: bold; }
+        .part-details { color: #555; font-size: 0.9em; }
+        .btn { padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-add { background: #007bff; color: white; }
+        .btn-remove { background: #dc3545; color: white; }
     </style>
 </head>
 <body>
-    <div class="tab-bar">
-        <button class="tab-button" onclick="window.location.href='/'">Home</button>
-        <button class="tab-button active" onclick="window.location.href='/build'">Build</button>
-        <button class="tab-button" onclick="window.location.href='/user_profile'">Account</button>
-    </div>
-    <div style="padding: 12px;">
-        <div class="item-card">
-            <div class="item-header">
-                <div class="item-image"></div>
-                <div class="item-details">
-                    <h3>Name of item</h3>
-                    <p>Price: 111$</p>
-                    <button class="login-btn" onclick="alert('Buy clicked')">Buy</button>
-                    <button class="social-btn twitter-btn" onclick="alert('Remove clicked')">Remove</button>
-                </div>
-            </div>
-            <div class="item-dropdowns">
-                <div class="dropdown-group">
-                    <h4>Item 2:</h4>
-                    <select onchange="this.form.submit()">
-                        <option value="">Choose Item 2</option>
-                        <option value="Option A">Option A</option>
-                        <option value="Option B">Option B</option>
-                        <option value="Option C">Option C</option>
-                    </select>
-                </div>
-                <div class="dropdown-group">
-                    <h4>Item 3:</h4>
-                    <select onchange="this.form.submit()">
-                        <option value="">Choose Item 3</option>
-                        <option value="Option A">Option A</option>
-                        <option value="Option B">Option B</option>
-                        <option value="Option C">Option C</option>
-                    </select>
-                </div>
-                <div class="dropdown-group">
-                    <h4>Item 4:</h4>
-                    <select onchange="this.form.submit()">
-                        <option value="">Choose Item 4</option>
-                        <option value="Option A">Option A</option>
-                        <option value="Option B">Option B</option>
-                        <option value="Option C">Option C</option>
-                    </select>
-                </div>
-                <div class="dropdown-group">
-                    <h4>Item 5:</h4>
-                    <select onchange="this.form.submit()">
-                        <option value="">Choose Item 5</option>
-                        <option value="Option A">Option A</option>
-                        <option value="Option B">Option B</option>
-                        <option value="Option C">Option C</option>
-                    </select>
-                </div>
-            </div>
+<div class="container">
+    <h2>Build Your PC</h2>
+
+    <div th:each="item, iterStat : ${allItems}" class="item-row">
+        <div>
+            <div class="item-name" th:text="${item.item}"></div>
+            <div class="part-details" th:if="${item.added}" 
+                 th:text="${item.partname} + ' - ₱' + ${item.price}"></div>
         </div>
+
+        <form th:if="${!item.added}" th:action="@{/build/add}" method="post" style="display:inline;">
+    <input type="hidden" name="index" th:value="${iterStat.index}"/>
+    <button type="submit" class="btn btn-add">Add</button>
+</form>
+
+<div th:if="${item.added}" style="display:inline;">
+    <span th:text="${item.partname} + ' - ₱' + ${item.price}"></span>
+    <form th:action="@{/build/remove}" method="post" style="display:inline;">
+        <input type="hidden" name="index" th:value="${iterStat.index}"/>
+        <button type="submit" class="btn btn-remove">Remove</button>
+    </form>
+</div>
+
     </div>
-    <button class="check-button" onclick="window.location.href='/'">✔</button>
+</div>
 </body>
 </html>
