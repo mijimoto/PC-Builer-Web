@@ -25,32 +25,31 @@ document.getElementById("forgotPasswordForm").addEventListener("submit", async f
         const response = await fetch(apiUrl, {
             method: "POST",
             headers: {
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             }
         });
 
-        // Read raw text first
-        const rawText = await response.text();
-        let data;
-
-        // Try to parse JSON if possible
-        try {
-            data = JSON.parse(rawText);
-        } catch {
-            data = { message: rawText };
-        }
+        const contentType = response.headers.get("content-type");
 
         if (response.ok) {
-            const token = data.token || data.Token;
-            if (token) {
-                alert("Check your email for a verification token");
-                window.location.href = `/reset-password?token=${encodeURIComponent(token)}`;
+            if (contentType && contentType.includes("application/json")) {
+                const data = await response.json();
+                const token = data.token || data.Token;
+
+                if (token) {
+                    alert("Check your email for a verification token");
+                    window.location.href = `/reset-password?token=${encodeURIComponent(token)}`;
+                } else {
+                    alert("Check your email for reset instructions");
+                    window.location.href = "/login";
+                }
             } else {
-                alert(data.message || "Check your email for reset instructions");
+                alert("Check your email for reset instructions");
                 window.location.href = "/login";
             }
         } else {
-            errorMessage.innerText = data.message || `Failed to request reset. Status: ${response.status}`;
+            errorMessage.innerText = `Failed to request reset. Status: ${response.status}`;
             errorMessage.style.display = "block";
         }
     } catch (err) {

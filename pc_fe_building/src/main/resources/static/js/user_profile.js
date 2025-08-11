@@ -55,4 +55,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             errorMessage.textContent = "Logout Error: " + error.message;
         }
     });
+            e.preventDefault();
+        const confirmed = confirm('Are you sure you want to log out?');
+        if (confirmed) {
+            // Redirect to logout endpoint or handle logout
+            window.location.href = '/logout'; // change if your logout URL is different
+        }
 });
