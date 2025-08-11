@@ -1,4 +1,4 @@
-/* reset_password.css */
+/* signup.css */
 
 * {
   box-sizing: border-box;
@@ -16,7 +16,7 @@ body {
   padding: 20px;
 }
 
-.forgot-container {
+.signup-container {
   background: rgba(10, 25, 40, 0.9);
   padding: 40px 35px 50px;
   border-radius: 15px;
@@ -28,19 +28,13 @@ body {
   text-align: center;
 }
 
-.forgot-container h2 {
+.signup-container h2 {
   font-family: 'Orbitron', sans-serif;
-  font-size: 2.4rem;
+  font-size: 2.2rem;
   color: #00ffff;
-  margin-bottom: 12px;
+  margin-bottom: 20px;
   text-shadow: 0 0 8px #00ffffaa;
   letter-spacing: 2px;
-}
-
-.forgot-container p {
-  margin-bottom: 25px;
-  font-size: 1.1rem;
-  color: #c4f1ff;
 }
 
 .form-group {
@@ -48,15 +42,8 @@ body {
   text-align: left;
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: 700;
-  color: #00ffff;
-  letter-spacing: 0.05em;
-}
-
 input[type="text"],
+input[type="email"],
 input[type="password"] {
   width: 100%;
   padding: 12px 15px;
@@ -70,30 +57,27 @@ input[type="password"] {
   box-sizing: border-box;
 }
 
-input[type="text"]:disabled {
-  background: #1b3045;
-  color: #66f9ff88;
-  cursor: not-allowed;
+input::placeholder {
+  color: #99ddee;
+  opacity: 0.7;
 }
 
-input[type="text"]:focus,
-input[type="password"]:focus {
+input:focus {
   border-color: #00ffff;
   box-shadow: 0 0 12px #00ffffcc;
   background: rgba(0, 0, 0, 0.4);
 }
 
-.error-message {
+.error-text {
   color: #ff5c5c;
   font-weight: 600;
   min-height: 24px;
-  margin-top: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   font-size: 0.95rem;
   text-align: left;
 }
 
-button#submitBtn {
+button.signup-btn {
   background: linear-gradient(135deg, #00ffff, #007ea7);
   border: none;
   padding: 14px 0;
@@ -107,10 +91,9 @@ button#submitBtn {
   letter-spacing: 0.1em;
   transition: background 0.35s ease, box-shadow 0.35s ease;
   user-select: none;
-  margin-bottom: 25px;
 }
 
-button#submitBtn:hover {
+button.signup-btn:hover {
   background: linear-gradient(135deg, #007ea7, #00ffff);
   box-shadow:
     0 0 22px 6px #00ffffcc,
@@ -118,50 +101,33 @@ button#submitBtn:hover {
   color: #e0f7ff;
 }
 
-a {
+.signup-option {
+  margin-top: 15px;
+  font-size: 0.95rem;
+}
+
+.signup-link {
   color: #66f9ff;
   font-weight: 600;
   text-decoration: none;
-  font-size: 1rem;
-  display: inline-block;
-  margin-top: 5px;
   letter-spacing: 0.05em;
   transition: color 0.3s ease;
 }
 
-a:hover {
+.signup-link:hover {
   color: #00ffff;
   text-decoration: underline;
 }
 
-/* Loading spinner */
-.loading-indicator {
-  margin-top: 20px;
-}
-
-.spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid rgba(0, 255, 255, 0.2);
-  border-top-color: #00ffff;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin: 0 auto;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
 /* Responsive */
 @media (max-width: 480px) {
-  .forgot-container {
+  .signup-container {
     padding: 30px 25px 40px;
   }
-  .forgot-container h2 {
-    font-size: 2rem;
+  .signup-container h2 {
+    font-size: 1.8rem;
   }
-  button#submitBtn {
+  button.signup-btn {
     font-size: 1rem;
     padding: 12px 0;
   }
