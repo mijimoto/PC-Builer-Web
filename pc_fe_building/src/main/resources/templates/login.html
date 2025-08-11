@@ -1,24 +1,30 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sign In - PC Builder</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Roboto&display=swap" rel="stylesheet" />
 </head>
 <body>
+     <video autoplay muted loop playsinline id="bg-video">
+            <source src="/video/drake-notebook.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+        </video>
+      <div id="overlay"></div>
     <div class="login-container">
-        <h2>Sign in with email</h2>
+        <h2>Sign in with Email</h2>
 
         <!-- Error message -->
         <div id="errorMessage" class="error-text" style="display:none;"></div>
 
         <form id="loginForm">
             <div class="form-group">
-                <input type="email" id="email" name="email" placeholder="Email" required>
+                <input type="email" id="email" name="email" placeholder="Email" required autocomplete="email" />
             </div>
             <div class="form-group">
-                <input type="password" id="password" name="password" placeholder="Password" required>
+                <input type="password" id="password" name="password" placeholder="Password" required autocomplete="current-password" />
             </div>
             <button type="submit" class="login-btn">Login</button>
             <a th:href="@{/forgot_password}" class="forgot_password">Forgot password?</a>
@@ -28,7 +34,6 @@
             <p>Need an account? <a th:href="@{/signup}" class="signup-link">Sign up</a></p>
         </div>
     </div>
-
     <script th:src="@{/js/login.js}"></script>
 </body>
 </html>
