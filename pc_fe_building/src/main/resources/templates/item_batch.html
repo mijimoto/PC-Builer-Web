@@ -5,71 +5,58 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Choose Part</title>
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0; padding: 0; background: #fafafa;
-  }
-  header {
-    background: #1976d2;
-    color: white;
-    padding: 16px;
-    font-size: 24px;
-    font-weight: 500;
-    text-align: center;
-  }
-  .container {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 0 12px;
-  }
-  .search-box {
-    margin-bottom: 12px;
-  }
-  input[type=text] {
-    width: 100%;
-    padding: 8px;
-    font-size: 16px;
-    box-sizing: border-box;
-  }
-  .card {
-    background: white;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-    margin-bottom: 12px;
-    border-radius: 4px;
-    padding: 12px;
-  }
-  .title {
-    font-weight: 600;
-    font-size: 18px;
-    margin-bottom: 4px;
-  }
-  .subtitle {
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 8px;
-  }
-  button {
-    background-color: #1976d2;
-    border: none;
-    color: white;
-    padding: 6px 12px;
-    font-size: 14px;
-    border-radius: 4px;
-    cursor: pointer;
-    user-select: none;
-  }
+  body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #fafafa; }
+  header { background: #1976d2; color: white; padding: 16px; font-size: 20px; font-weight: 500; text-align: center; }
+  .container { max-width: 900px; margin: 20px auto; padding: 0 12px; }
+  .controls { display:flex; gap:8px; align-items:center; margin-bottom:12px; flex-wrap:wrap; }
+  .search-box { flex:1; min-width:180px; }
+  input[type=text] { width:100%; padding:8px; font-size:16px; box-sizing:border-box; }
+  select { padding:6px; font-size:14px; }
+  .card { background:white; box-shadow:0 1px 3px rgba(0,0,0,0.12); margin-bottom:12px; border-radius:6px; padding:12px; display:flex; justify-content:space-between; align-items:center; gap:12px; }
+  .card .meta { flex:1; }
+  .title { font-weight:600; font-size:18px; margin-bottom:6px; }
+  .subtitle { font-size:14px; color:#555; margin-bottom:4px; }
+  button { background-color:#1976d2; border:none; color:white; padding:8px 12px; font-size:14px; border-radius:6px; cursor:pointer; }
+  .pager { display:flex; gap:8px; align-items:center; margin-top:10px; }
+  .msg { margin:8px 0; color:#b00020; }
+  .empty { color:#333; padding:16px; text-align:center; }
 </style>
 </head>
 <body>
 
 <header id="header">Choose Part</header>
+
 <div class="container">
-  <div class="search-box">
-    <input type="text" id="search-input" placeholder="Search part name..." />
+  <div class="controls">
+    <div class="search-box">
+      <input type="text" id="search-input" placeholder="Search part name..." autocomplete="off" />
+    </div>
+
+    <label>
+      Page size:
+      <select id="page-size">
+        <option value="10">10</option>
+        <option value="20" selected>20</option>
+        <option value="50">50</option>
+      </select>
+    </label>
+
+    <div style="margin-left:auto; display:flex; gap:8px; align-items:center;">
+      <button id="prev-btn">Prev</button>
+      <button id="next-btn">Next</button>
+    </div>
   </div>
+
   <div id="parts-container"></div>
+
+  <div class="pager">
+    <div id="page-info"></div>
+    <div style="margin-left:auto;">
+      <span id="status-msg" class="msg" aria-live="polite"></span>
+    </div>
+  </div>
 </div>
 
-<script th:src="@{/js/item-batch.js}"></script>
+<script src="js/item-batch.js"></script>
 </body>
 </html>
