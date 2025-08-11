@@ -36,7 +36,7 @@ document.getElementById("loginForm").addEventListener("submit", async function (
             localStorage.setItem("accountId", data.accountId);
 
             alert("Logged In!");
-            window.location.href = `/user/${data.accountId}`;
+            window.location.href = `/user_profile`;
         } else {
             errorMessage.innerText = data.error || `Login failed (${response.status})`;
             errorMessage.style.display = "block";
