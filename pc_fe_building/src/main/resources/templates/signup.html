@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/signup.css}">
 </head>
 <body>
-    <div class="login-container">
+    <div class="signup-container">
         <h2>Sign up with email</h2>
 
         <!-- Error message -->
-        <div id="errorMessage" class="error-text" style="display:none;"></div>
+        <div id="errorMessage" class="error-text" style="display:none;"></div>  
 
         <form id="signupForm">
             <div class="form-group">
@@ -26,7 +26,7 @@
             <div class="form-group">
                 <input type="password" id="password" name="password" placeholder="Password" required>
             </div>
-            <button type="submit" class="login-btn">Sign Up</button>
+            <button type="submit" class="signup-btn">Sign Up</button>
         </form>
 
         <div class="signup-option">

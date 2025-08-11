@@ -4,23 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Roboto&display=swap" rel="stylesheet" />
     <link rel="stylesheet" th:href="@{/css/user_profile_edit.css}">
     <script th:src="@{/js/user_profile_edit.js}" defer></script>
 </head>
 <body>
     <div class="app-bar">
         <div class="tab-bar">
-            <button class="tab-button" onclick="window.location.href='/'">Home</button>
+            <button class="tab-button" onclick="window.location.href='/index'">Home</button>
             <button class="tab-button" onclick="window.location.href='/build'">Build</button>
             <button class="tab-button active">Account</button>
         </div>
     </div>
     <div class="container">
-        <h1 class="username" id="username-title" th:text="${firstName} ?: 'UserName'">UserName</h1>
+        <h1 class="username" id="username-title">Editing.....</h1>
         
         <div class="error-message" id="error-message" style="color: red;"></div>
 
-        <div class="profile-card">
             <div class="profile-form">
                 <div class="form-group">
                     <input id="firstName" type="text" placeholder="First Name" class="form-input"
@@ -35,7 +35,7 @@
                            th:value="${email}">
                 </div>
             </div>
-        </div>
+
         <div class="button-group">
             <button class="action-button save-button" id="saveProfileBtn">Save new Profile</button>
             <button class="action-button cancel-button" onclick="window.location.href='/user_profile'">Cancel</button>

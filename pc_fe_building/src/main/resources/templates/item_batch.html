@@ -1,45 +1,75 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Item List</title>
-    <link rel="stylesheet" th:href="@{/css/item_batch.css}">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Choose Part</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0; padding: 0; background: #fafafa;
+  }
+  header {
+    background: #1976d2;
+    color: white;
+    padding: 16px;
+    font-size: 24px;
+    font-weight: 500;
+    text-align: center;
+  }
+  .container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 0 12px;
+  }
+  .search-box {
+    margin-bottom: 12px;
+  }
+  input[type=text] {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+  .card {
+    background: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    margin-bottom: 12px;
+    border-radius: 4px;
+    padding: 12px;
+  }
+  .title {
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+  .subtitle {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 8px;
+  }
+  button {
+    background-color: #1976d2;
+    border: none;
+    color: white;
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    user-select: none;
+  }
+</style>
 </head>
 <body>
-    <div class="app-bar">
-        <div class="tab-bar">
-            <button class="tab-button" onclick="window.location.href='/'">Home</button>
-            <button class="tab-button" onclick="window.location.href='/search'">Search</button>
-            <button class="tab-button" onclick="window.location.href='/build'">Build</button>
-            <button class="tab-button" onclick="window.location.href='/account'">Account</button>
-        </div>
-    </div>
-    <div class="container">
-        <div class="search-bar">
-            <input type="text" placeholder="search" class="search-input">
-            <span class="search-icon">🔍</span>
-            <button class="clear-button" onclick="this.previousElementSibling.value = ''; alert('Cleared');">✖</button>
-        </div>
-        <div class="item-list">
-            <div class="item-card">
-                <div class="item-image"></div>
-                <div class="item-details">Item 1</div>
-                <button class="action-btn add-btn" onclick="alert('Add clicked')">Add</button>
-            </div>
-            <div class="item-card">
-                <div class="item-image"></div>
-                <div class="item-details">Item 2</div>
-                <button class="action-btn add-btn" onclick="alert('Add clicked')">Add</button>
-            </div>
-            <div class="item-card">
-                <div class="item-image"></div>
-                <div class="item-details">Item 3</div>
-                <button class="action-btn add-btn" onclick="alert('Add clicked')">Add</button>
-            </div>
-        </div>
-        <button class="add-button" onclick="alert('New item added');">Add New Item</button>
-    </div>
-    <button class="menu-button" onclick="alert('Menu opened');">☰</button>
+
+<header id="header">Choose Part</header>
+<div class="container">
+  <div class="search-box">
+    <input type="text" id="search-input" placeholder="Search part name..." />
+  </div>
+  <div id="parts-container"></div>
+</div>
+
+<script th:src="@{/js/item-batch.js}"></script>
 </body>
 </html>

@@ -1,44 +1,208 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>PC Build</title>
-    <style>
-        body { font-family: Arial, sans-serif; background: #f5f5f5; }
-        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 5px; }
-        .item-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #ddd; }
-        .item-name { font-weight: bold; }
-        .part-details { color: #555; font-size: 0.9em; }
-        .btn { padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; }
-        .btn-add { background: #007bff; color: white; }
-        .btn-remove { background: #dc3545; color: white; }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PC Build Parts</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Roboto&display=swap" rel="stylesheet" />
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #eee;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 70px;
+  }
+
+  /* Header */
+  header {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    background: #071a2f;
+    box-shadow: 0 2px 8px rgba(0, 255, 255, 0.2);
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 2.2rem;
+    color: #00ffff;
+    text-align: center;
+    padding: 18px 0;
+    letter-spacing: 2px;
+    user-select: none;
+    z-index: 100;
+    text-shadow: 0 0 12px #00ffffaa;
+  }
+
+  /* Main container - wider desktop friendly */
+  .container {
+    max-width: 1000px;  /* wider max */
+    width: 95%;
+    background: rgba(10, 25, 40, 0.9);
+    border-radius: 20px;
+    box-shadow:
+      0 0 25px 4px rgba(0, 255, 255, 0.35),
+      0 15px 50px rgba(0, 255, 255, 0.15);
+    padding: 40px 50px 50px;
+    margin-top: 100px;
+    text-align: left;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+  }
+
+  /* Card */
+  .card {
+    background: #142a42;
+    border-radius: 16px;
+    box-shadow: inset 0 0 16px #00ffff55;
+    padding: 24px 28px;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+    cursor: default;
+  }
+  .card:hover {
+    box-shadow: 0 0 28px 4px #00ffffcc, inset 0 0 22px #00ffffaa;
+    transform: translateY(-5px);
+  }
+
+  /* Leading Icon */
+  .leading-icon {
+    min-width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #00ffff, #007ea7);
+    border-radius: 16px;
+    box-shadow: 0 0 14px #00ffffcc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 36px;
+    color: #071a2f;
+    user-select: none;
+  }
+
+  /* Card content */
+  .card-content {
+    flex-grow: 1;
+  }
+  .title {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #00ffff;
+    margin-bottom: 6px;
+    letter-spacing: 0.9px;
+  }
+  .subtitle {
+    font-size: 1.1rem;
+    color: #a0d8f7;
+    user-select: none;
+  }
+
+  /* Remove button */
+  button.remove {
+    background: linear-gradient(135deg, #ef5350, #d32f2f);
+    border: none;
+    color: white;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 12px 28px;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: 0 0 18px #ef535088;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    user-select: none;
+    transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.1s ease;
+    white-space: nowrap;
+  }
+  button.remove:hover {
+    background: linear-gradient(135deg, #d32f2f, #b71c1c);
+    box-shadow: 0 0 28px #d32f2fcc;
+  }
+  button.remove:active {
+    transform: scale(0.95);
+  }
+  button.remove svg {
+    width: 18px;
+    height: 18px;
+    fill: white;
+  }
+
+  /* Responsive tweaks */
+  @media (max-width: 880px) {
+    .container {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      padding: 30px 35px 40px;
+      max-width: 90%;
+    }
+    .leading-icon {
+      min-width: 60px;
+      height: 60px;
+      font-size: 28px;
+    }
+    .title {
+      font-size: 1.3rem;
+    }
+    .subtitle {
+      font-size: 1rem;
+    }
+    button.remove {
+      padding: 10px 22px;
+      font-size: 0.95rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .container {
+      grid-template-columns: 1fr;
+      padding: 25px 20px 35px;
+      max-width: 95%;
+    }
+    button.remove {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+  button.add {
+  background: linear-gradient(135deg, #00ffff, #007ea7);
+  border: none;
+  color: #071a2f;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 12px 28px;
+  border-radius: 14px;
+  cursor: pointer;
+  box-shadow: 0 0 18px #00ffffcc;
+  user-select: none;
+  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.1s ease;
+  white-space: nowrap;
+}
+button.add:hover {
+  background: linear-gradient(135deg, #007ea7, #00ffff);
+  box-shadow: 0 0 28px #00ffffcc;
+}
+button.add:active {
+  transform: scale(0.95);
+}
+
+</style>
 </head>
 <body>
-<div class="container">
-    <h2>Build Your PC</h2>
 
-    <div th:each="item, iterStat : ${allItems}" class="item-row">
-        <div>
-            <div class="item-name" th:text="${item.item}"></div>
-            <div class="part-details" th:if="${item.added}" 
-                 th:text="${item.partname} + ' - ₱' + ${item.price}"></div>
-        </div>
+<header>PC Build Parts</header>
+<div class="container" id="parts-container"></div>
 
-        <form th:if="${!item.added}" th:action="@{/build/add}" method="post" style="display:inline;">
-    <input type="hidden" name="index" th:value="${iterStat.index}"/>
-    <button type="submit" class="btn btn-add">Add</button>
-</form>
-
-<div th:if="${item.added}" style="display:inline;">
-    <span th:text="${item.partname} + ' - ₱' + ${item.price}"></span>
-    <form th:action="@{/build/remove}" method="post" style="display:inline;">
-        <input type="hidden" name="index" th:value="${iterStat.index}"/>
-        <button type="submit" class="btn btn-remove">Remove</button>
-    </form>
-</div>
-
-    </div>
-</div>
+<script th:src="@{/js/build-page.js}"></script>
 </body>
 </html>

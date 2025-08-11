@@ -1,35 +1,41 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
-    <link rel="stylesheet" th:href="@{/css/user_profile.css}">
-    <script th:src="@{/js/user_profile.js}" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>User Profile - PC Builder</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Roboto&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" th:href="@{/css/user_profile.css}">
+  
 </head>
 <body>
-    <div class="app-bar">
-        <div class="tab-bar">
-            <button class="tab-button" onclick="window.location.href='/'">Home</button>
-            <button class="tab-button" onclick="window.location.href='/build'">Build</button>
-            <button class="tab-button active">Account</button>
-        </div>
+  <div class="app-bar">
+    <div class="tab-bar">
+      <button class="tab-button" onclick="window.location.href='/index'">Home</button>
+      <button class="tab-button" onclick="window.location.href='/build'">Build</button>
+      <button class="tab-button active">Account</button>
     </div>
-    <div class="container">
-        <h1 class="username" id="username-title" 
-            th:text="${firstName} ?: 'UserName'">UserName</h1>
-        
-        <div class="error-message" id="error-message" style="color: red;"></div>
+  </div>
 
-        <div class="profile-card">
-            <div class="profile-info">
-                <p id="firstNameDisplay">First Name: <span th:text="${firstName}">Gecko</span></p>
-                <p id="lastNameDisplay">Last Name: <span th:text="${lastName}">Gex</span></p>
-                <p id="emailDisplay">Email: <span th:text="${email}">nuhuh@gmail.com</span></p>
-            </div>
-        </div>
-        <button class="edit-button" onclick="window.location.href='/user_profile_edit'">Edit Profile</button>
-        <a href="#" id="logoutBtn" class="logout-link">Log Out</a>
-    </div>
+  <div class="container">
+    <h1 class="username" id="username-title" th:text=" (${firstName} ?: 'UserName')"></h1>
+
+    <div class="error-message" id="error-message"></div>
+
+  <div class=" profile-card">
+      <div class="profile-info">
+        <p id="firstNameDisplay">First Name: <span th:text="${firstName}"></span></p>
+        <br>
+        <p id="lastNameDisplay">Last Name: <span th:text="${lastName}"></span></p>
+        <br>
+        <p id="emailDisplay">Email: <span th:text="${email}"></span></p>
+      </div>
+  </div>
+
+    <button class="edit-button" onclick="window.location.href='/user_profile_edit'">Edit Profile</button>
+    <br>
+    <button id="logoutBtn" class="logout-button">Log Out</button>
+  </div>
+  <script th:src="@{/js/user_profile.js}" defer></script>
 </body>
 </html>

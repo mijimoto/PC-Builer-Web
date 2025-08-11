@@ -260,25 +260,31 @@
   		function setupNav() {
   			// Add Event Listener to each Nav item
 	     	$(".tm-main-nav a").click(function(e){
-	     		e.preventDefault();
-		    	
-		    	var currentNavItem = $(this);
-		    	var href = currentNavItem.attr("href");
+				e.preventDefault();
 
-		    	// Check if it's an external link (starts with /)
-		    	if (href.startsWith('/')) {
-		    		window.location.href = href;
-		    		return;
-		    	}
+				var currentNavItem = $(this);
+				var href = currentNavItem.attr("href");
 
-		    	changePage(currentNavItem);
-		    	
-		    	setupCarousel();
-		    	setupFooter();
+				// Animate fade out + redirect for external links (starting with /)
+				if (href.startsWith('/')) {
+					// Fade out the main content container
+					$(".tm-content").addClass("fade-out");
 
-		    	// Hide the nav on mobile
-		    	$("#tmSideBar").removeClass("show");
-		    });	    
+					// After animation ends, redirect
+					setTimeout(function(){
+						window.location.href = href;
+					}, 500); // match the CSS animation duration
+					return;
+				}
+
+				changePage(currentNavItem);
+
+				setupCarousel();
+				setupFooter();
+
+				// Hide the nav on mobile
+				$("#tmSideBar").removeClass("show");
+			});
   		}
 
   		function changePage(currentNavItem) {
@@ -379,4 +385,3 @@
 		</script>
 	</body>
 </html>
-
