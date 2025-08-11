@@ -9,7 +9,11 @@
 <body>
     <div class="login-container">
         <h2>Sign in with email</h2>
-        <form th:action="@{/login}" method="post">
+
+        <!-- Error message -->
+        <div id="errorMessage" class="error-text" style="display:none;"></div>
+
+        <form id="loginForm">
             <div class="form-group">
                 <input type="email" id="email" name="email" placeholder="Email" required>
             </div>
@@ -19,11 +23,12 @@
             <button type="submit" class="login-btn">Login</button>
             <a th:href="@{/forgot_password}" class="forgot_password">Forgot password?</a>
         </form>
+
         <div class="signup-option">
             <p>Need an account? <a th:href="@{/signup}" class="signup-link">Sign up</a></p>
         </div>
-        <button class="social-btn facebook-btn">Continue with Facebook</button>
-        <button class="social-btn twitter-btn">Continue with Twitter</button>
     </div>
+
+    <script th:src="@{/js/login.js}"></script>
 </body>
 </html>

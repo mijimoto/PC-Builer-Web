@@ -9,27 +9,31 @@
 <body>
     <div class="login-container">
         <h2>Sign up with email</h2>
-        <form th:action="@{/signup}" method="post">
+
+        <!-- Error message -->
+        <div id="errorMessage" class="error-text" style="display:none;"></div>
+
+        <form id="signupForm">
             <div class="form-group">
-                <input type="text" id="fullName" name="fullName" placeholder="Full Name" required>
+                <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
             </div>
             <div class="form-group">
-                <input type="email" id="email" name="email" placeholder="Email" required>
+                <input type="text" id="lastName" name="lastName" placeholder="Last Name">
+            </div>
+            <div class="form-group">
+                <input type="email" id="email" name="email" placeholder="Email (Gmail only)" required>
             </div>
             <div class="form-group">
                 <input type="password" id="password" name="password" placeholder="Password" required>
             </div>
-            <div class="form-group">
-                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
-            </div>
             <button type="submit" class="login-btn">Sign Up</button>
-            <a href="#" class="forgot-password">Terms and Conditions</a>
         </form>
+
         <div class="signup-option">
-            <p>Already have an account? <a href="#" class="signup-link">Sign in</a></p>
+            <p>Already have an account? <a th:href="@{/login}" class="signup-link">Sign in</a></p>
         </div>
-        <button class="social-btn facebook-btn">Continue with Facebook</button>
-        <button class="social-btn twitter-btn">Continue with Twitter</button>
     </div>
+
+    <script th:src="@{/js/signup.js}"></script>
 </body>
 </html>
