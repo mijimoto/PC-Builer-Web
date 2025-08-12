@@ -27,6 +27,7 @@ const DEFAULT_ITEMS = [
   {"item": "Cases", "name": "cases", "added": false, "partname": "", "price": null},
   {"item": "Case Fan", "name": "casefan", "added": false, "partname": "", "price": null},
   {"item": "Case Accessory", "name": "caseaccessory", "added": false, "partname": "", "price": null},
+  {"item": "SUM", "name": "SUM", "added": false, "partname": "", "price": 0.0},
 ];
 
 const STORAGE_KEY = "buildSelectionsByName";
@@ -48,12 +49,12 @@ function saveSelections(map) {
 }
 
 let allItems = [];
+
 function initAllItemsFromDefaults() {
   const selections = loadSelections();
   allItems = DEFAULT_ITEMS.map(d => {
     const sel = selections[d.name];
     if (sel) {
-      // keep price null if saved as null
       return {
         ...d,
         added: true,
@@ -66,12 +67,8 @@ function initAllItemsFromDefaults() {
   });
 }
 
-// init
-initAllItemsFromDefaults();
-
 const container = document.getElementById("parts-container");
 
-// helper to escape HTML when inserting user/back-end strings
 function escapeHtml(s) {
   if (s === null || s === undefined) return "";
   return String(s)
@@ -84,6 +81,10 @@ function escapeHtml(s) {
 
 function render() {
   container.innerHTML = "";
+
+  // Tính tổng giá các phần đã thêm
+  const totalPrice = allItems.reduce((sum, item) => sum + (item.added && item.price !== null ? item.price : 0), 0);
+
   allItems.forEach((item, i) => {
     const card = document.createElement("div");
     card.className = "card";
@@ -103,48 +104,58 @@ function render() {
 
     const subtitle = document.createElement("div");
     subtitle.className = "subtitle";
-    if (item.added) {
-      const priceText = (item.price === null || item.price === undefined) ? "N/A" : `₱${Number(item.price).toFixed(2)}`;
+
+    if (item.name === "SUM") {
+      subtitle.textContent = `Total Price: ₱${totalPrice.toFixed(2)}`;
+    } else if (item.added) {
       subtitle.innerHTML = `
         Name: ${escapeHtml(item.partname)}<br />
-        Price: ${escapeHtml(priceText)}
+        Price: ₱${item.price !== null ? item.price.toFixed(2) : "N/A"}
       `;
     } else {
       subtitle.textContent = `Add a ${item.item}`;
     }
     content.appendChild(subtitle);
+
     card.appendChild(content);
 
-    const btn = document.createElement("button");
-    if (item.added) {
-      btn.textContent = "Remove";
-      btn.className = "remove";
-      btn.onclick = () => {
-        // update in-memory
-        allItems[i].added = false;
-        allItems[i].partname = "";
-        allItems[i].price = null;
-        // update persisted selections map by name
-        const selections = loadSelections();
-        delete selections[item.name];
-        saveSelections(selections);
-        render();
-      };
-    } else {
-      btn.textContent = "Add";
-      btn.className = "add";
-      btn.onclick = () => {
-        window.location.href = `/item?itemName=${encodeURIComponent(item.name)}&itemIndex=${i}`;
-      };
+    if (item.name !== "SUM") {
+      const btn = document.createElement("button");
+      if (item.added) {
+        btn.textContent = "Remove";
+        btn.className = "remove";
+        btn.onclick = () => {
+          allItems[i].added = false;
+          allItems[i].partname = "";
+          allItems[i].price = null;
+          saveAllToStorageAndRender();
+        };
+      } else {
+        btn.textContent = "Add";
+        btn.className = "add";
+        btn.onclick = () => {
+          window.location.href = `/item?itemName=${encodeURIComponent(item.name)}&itemIndex=${i}`;
+        };
+      }
+      card.appendChild(btn);
     }
-    card.appendChild(btn);
 
     container.appendChild(card);
   });
 }
 
-// Process returned selection from /item page.
-// NOTE: price may be absent — that's allowed and stored as null.
+function saveAllToStorageAndRender() {
+  // Build selections map
+  const selections = {};
+  allItems.forEach(item => {
+    if (item.added) {
+      selections[item.name] = { partname: item.partname ?? "", price: item.price };
+    }
+  });
+  saveSelections(selections);
+  render();
+}
+
 function updateFromUrlParams() {
   const urlParams = new URLSearchParams(window.location.search);
   const selectedIndex = urlParams.get("selectedIndex");
@@ -153,7 +164,7 @@ function updateFromUrlParams() {
 
   if (selectedIndex !== null && partname !== null) {
     const index = parseInt(selectedIndex, 10);
-    if (!Number.isNaN(index) && DEFAULT_ITEMS[index]) {
+    if (!Number.isNaN(index) && index >= 0 && index < DEFAULT_ITEMS.length) {
       const itemNameKey = DEFAULT_ITEMS[index].name;
       const decodedName = decodeURIComponent(partname);
 
@@ -162,16 +173,12 @@ function updateFromUrlParams() {
       if (price !== null && price !== undefined && price !== "") {
         const num = Number(price);
         if (!Number.isNaN(num)) priceVal = num;
-        else priceVal = null;
-      } else {
-        priceVal = null;
       }
 
       const selections = loadSelections();
       selections[itemNameKey] = { partname: decodedName, price: priceVal };
       saveSelections(selections);
 
-      // re-init working items from defaults + selections and render
       initAllItemsFromDefaults();
 
       // remove params so they don't get processed again
@@ -180,35 +187,35 @@ function updateFromUrlParams() {
   }
 }
 
-// initial processing + render
+// Khởi tạo danh sách
+initAllItemsFromDefaults();
+
+// Xử lý URL params trước khi render
 updateFromUrlParams();
+
+// Render danh sách
 render();
-// Clear All button behavior
+
+// Clear All button
 const clearBtn = document.getElementById("clearAllBtn");
 if (clearBtn) {
   clearBtn.addEventListener("click", () => {
     const confirmed = confirm("Remove all selected parts? This will clear your saved selections.");
     if (!confirmed) return;
 
-    // Option A: remove the storage key entirely
     try {
       localStorage.removeItem(STORAGE_KEY);
     } catch (e) {
       console.warn("Failed to remove selections:", e);
-      // fallback: overwrite with empty object
       saveSelections({});
     }
 
-    // Re-initialize working list and rerender
     initAllItemsFromDefaults();
     render();
-
-    // Optional quick visual feedback: briefly flash export button or alert
-    // alert("All selections cleared.");
   });
 }
 
-// Export to PDF with total calculation (requires jspdf loaded)
+// Export PDF button
 const exportBtn = document.getElementById("exportPdfBtn");
 if (exportBtn) {
   exportBtn.addEventListener("click", () => {
@@ -236,9 +243,11 @@ if (exportBtn) {
     let total = 0;
 
     allItems.forEach(item => {
+      if (item.name === "SUM") return; // skip SUM item in PDF
+
       const partName = item.added ? (item.partname || "(unnamed)") : "(Not added)";
       const priceVal = (item.added && item.price !== null && item.price !== undefined) ? Number(item.price) : null;
-      const priceText = priceVal === null ? "N/A" : Number(priceVal).toFixed(2);
+      const priceText = priceVal === null ? "N/A" : priceVal.toFixed(2);
 
       const splitPartName = doc.splitTextToSize(partName, 70);
 
@@ -266,8 +275,9 @@ if (exportBtn) {
 
     doc.setFont(undefined, "bold");
     doc.text("Total (sum of known prices):", 80, y);
-    doc.text(`₱${Number(total).toFixed(2)}`, 160, y, { align: "right" });
+    doc.text(`₱${total.toFixed(2)}`, 160, y, { align: "right" });
 
     doc.save("pc-build-parts-summary.pdf");
   });
 }
+
