@@ -15,6 +15,7 @@ document.getElementById("forgotPasswordForm").addEventListener("submit", async f
         return;
     }
 
+    
     // Disable button and show loading
     sendBtn.disabled = true;
     sendBtn.innerText = "Sending...";
