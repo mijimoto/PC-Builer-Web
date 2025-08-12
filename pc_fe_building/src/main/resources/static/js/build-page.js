@@ -106,3 +106,49 @@ function updateFromUrlParams() {
 
 updateFromUrlParams();
 render();
+
+document.getElementById("exportPdfBtn").addEventListener("click", () => {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(18);
+  doc.setTextColor("#00ffff");
+  doc.text("PC Build Parts Summary", 14, 20);
+
+  doc.setFontSize(12);
+  doc.setTextColor("#000000");
+
+  const startY = 30;
+  let y = startY;
+
+  // Table headers
+  doc.setFont(undefined, "bold");
+  doc.text("Item", 14, y);
+  doc.text("Part Name", 80, y);
+  doc.text("Price (₱)", 160, y);
+  doc.setFont(undefined, "normal");
+  y += 8;
+
+  allItems.forEach(item => {
+    const partName = item.added ? item.partname : "(Not added)";
+    const price = item.added ? item.price.toFixed(2) : "-";
+
+    // Wrap text for long part names
+    const splitPartName = doc.splitTextToSize(partName, 70);
+
+    doc.text(item.item, 14, y);
+    doc.text(splitPartName, 80, y);
+    doc.text(price.toString(), 160, y, { align: "right" });
+
+    y += 8 * splitPartName.length;
+
+    // Add page if needed
+    if (y > 280) {
+      doc.addPage();
+      y = 20;
+    }
+  });
+
+  doc.save("pc-build-parts-summary.pdf");
+});
