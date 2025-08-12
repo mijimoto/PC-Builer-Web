@@ -7,16 +7,13 @@ document.getElementById("forgotPasswordForm").addEventListener("submit", async f
 
     errorMessage.style.display = "none";
 
-    // Validate email
-    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    const emailRegex = /^[\w.-]+@([\w-]+\.)+[\w-]{2,4}$/;
     if (!email || !emailRegex.test(email)) {
         errorMessage.innerText = "Please enter a valid email";
         errorMessage.style.display = "block";
         return;
     }
 
-    
-    // Disable button and show loading
     sendBtn.disabled = true;
     sendBtn.innerText = "Sending...";
 
@@ -26,31 +23,31 @@ document.getElementById("forgotPasswordForm").addEventListener("submit", async f
         const response = await fetch(apiUrl, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
                 "Accept": "application/json"
             }
         });
 
-        const contentType = response.headers.get("content-type");
-
         if (response.ok) {
-            if (contentType && contentType.includes("application/json")) {
-                const data = await response.json();
-                const token = data.token || data.Token;
+            const raw = await response.text();
+            let token = null;
 
-                if (token) {
-                    alert("Check your email for a verification token");
-                    window.location.href = `/reset-password?token=${encodeURIComponent(token)}`;
-                } else {
-                    alert("Check your email for reset instructions");
-                    window.location.href = "/login";
-                }
+            try {
+                const data = JSON.parse(raw);
+                token = data.token || data.Token || null;
+            } catch (err) {
+                console.log("Server returned plain text:", raw);
+            }
+
+            if (token) {
+                alert("Check your email for a verification token");
+                window.location.href = `/reset-password?token=${encodeURIComponent(token)}`;
             } else {
                 alert("Check your email for reset instructions");
                 window.location.href = "/login";
             }
         } else {
-            errorMessage.innerText = `Failed to request reset. Status: ${response.status}`;
+            const errorText = await response.text();
+            errorMessage.innerText = `Failed to request reset: ${errorText || response.status}`;
             errorMessage.style.display = "block";
         }
     } catch (err) {
