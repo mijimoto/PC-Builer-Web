@@ -17,42 +17,48 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    form.addEventListener("submit", async (event) => {
-        event.preventDefault();
+	form.addEventListener("submit", async (event) => {
+	    event.preventDefault();
 
-        const newPassword = newPasswordInput.value.trim();
-        if (!newPassword) {
-            errorMsg.textContent = "Please enter a new password";
-            return;
-        }
+	    const newPassword = newPasswordInput.value.trim();
+	    if (!newPassword) {
+	        errorMsg.textContent = "Please enter a new password";
+	        return;
+	    }
 
-        errorMsg.textContent = "";
-        loadingIndicator.style.display = "block";
+	    errorMsg.textContent = "";
+	    loadingIndicator.style.display = "block";
 
-        try {
-            const response = await fetch(
-                `https://pcbuilder-546878159726.asia-east1.run.app/api/v1/accounts/reset-password?token=${encodeURIComponent(token)}&newPassword=${encodeURIComponent(newPassword)}`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Accept": "application/json"
-                    }
-                }
-            );
+	    try {
+	        const formData = new URLSearchParams();
+	        formData.append("token", token);
+	        formData.append("newPassword", newPassword);
 
-            const responseText = await response.text();
-            console.log("Response:", response.status, responseText);
+	        const response = await fetch(
+	            "https://pcbuilder-546878159726.asia-east1.run.app/api/v1/accounts/reset-password",
+	            {
+	                method: "POST",
+	                headers: {
+	                    "Content-Type": "application/x-www-form-urlencoded",
+	                    "Accept": "application/json"
+	                },
+	                body: formData.toString()
+	            }
+	        );
 
-            if (response.status === 200) {
-                alert("Password reset successfully. You can now log in.");
-                window.location.href = "/login";
-            } else {
-                errorMsg.textContent = `Failed to reset password: ${responseText}`;
-            }
-        } catch (err) {
-            errorMsg.textContent = "Connection error: " + err.message;
-        } finally {
-            loadingIndicator.style.display = "none";
-        }
-    });
+	        const responseText = await response.text();
+	        console.log("Response:", response.status, responseText);
+
+	        if (response.ok) {
+	            alert("Password reset successfully. You can now log in.");
+	            window.location.href = "/login";
+	        } else {
+	            errorMsg.textContent = `Failed to reset password: ${responseText}`;
+	        }
+	    } catch (err) {
+	        errorMsg.textContent = "Connection error: " + err.message;
+	    } finally {
+	        loadingIndicator.style.display = "none";
+	    }
+	});
 });
