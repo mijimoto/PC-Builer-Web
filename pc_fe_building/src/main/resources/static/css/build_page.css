@@ -137,6 +137,9 @@ nav .tab-button[active] {
 /* Card content */
 .card-content {
   flex-grow: 1;
+  flex-shrink: 1;      
+  min-width: 0;         
+  word-wrap: break-word; 
 }
 
 .title {
